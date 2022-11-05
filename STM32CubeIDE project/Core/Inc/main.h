@@ -58,12 +58,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define RESET_Pin GPIO_PIN_13
-#define RESET_GPIO_Port GPIOC
-#define INC_Pin GPIO_PIN_1
-#define INC_GPIO_Port GPIOA
-#define DEC_Pin GPIO_PIN_3
-#define DEC_GPIO_Port GPIOA
 #define DEBUG_LED_Pin GPIO_PIN_5
 #define DEBUG_LED_GPIO_Port GPIOA
 #define EN0_Pin GPIO_PIN_7
@@ -74,6 +68,12 @@ void Error_Handler(void);
 #define SEG1_GPIO_Port GPIOB
 #define SEG2_Pin GPIO_PIN_2
 #define SEG2_GPIO_Port GPIOB
+#define RESET_Pin GPIO_PIN_10
+#define RESET_GPIO_Port GPIOA
+#define INC_Pin GPIO_PIN_11
+#define INC_GPIO_Port GPIOA
+#define DEC_Pin GPIO_PIN_12
+#define DEC_GPIO_Port GPIOA
 #define SEG3_Pin GPIO_PIN_3
 #define SEG3_GPIO_Port GPIOB
 #define SEG4_Pin GPIO_PIN_4
@@ -91,5 +91,3 @@ void Error_Handler(void);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
