@@ -1,9 +1,3 @@
-/*
- * fsm_automatic.h
- *
- *  Created on: Nov 5, 2022
- *      Author: Minh Duc Quach
- */
 
 #ifndef INC_FSM_AUTOMATIC_H_
 #define INC_FSM_AUTOMATIC_H_
