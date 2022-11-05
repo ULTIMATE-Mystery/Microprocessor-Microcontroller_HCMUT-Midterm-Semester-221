@@ -97,9 +97,9 @@ int main(void)
   while (1)
   {
 	  //process button pressing events
-	  fsm_short_pressed_run();
-	  fsm_long_pressed_run();
-	  fsm_automatic_run();
+	  fsm_normal_pressed();
+	  fsm_long_pressed();
+	  fsm_auto_dec();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

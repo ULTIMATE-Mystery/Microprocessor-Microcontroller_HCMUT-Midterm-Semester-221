@@ -1,9 +1,7 @@
 Core/Src/global.o: ../Core/Src/global.c ../Core/Inc/global.h \
  ../Core/Inc/timer_interrupt.h ../Core/Inc/global.h \
- ../Core/Inc/fsm_automatic.h ../Core/Inc/fsm_long_pressed.h \
- ../Core/Inc/fsm_short_pressed.h ../Core/Inc/button.h \
- ../Core/Inc/display.h ../Core/Inc/main.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+ ../Core/Inc/fsm_button.h ../Core/Inc/button.h ../Core/Inc/display.h \
+ ../Core/Inc/main.h ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -30,9 +28,7 @@ Core/Src/global.o: ../Core/Src/global.c ../Core/Inc/global.h \
 ../Core/Inc/global.h:
 ../Core/Inc/timer_interrupt.h:
 ../Core/Inc/global.h:
-../Core/Inc/fsm_automatic.h:
-../Core/Inc/fsm_long_pressed.h:
-../Core/Inc/fsm_short_pressed.h:
+../Core/Inc/fsm_button.h:
 ../Core/Inc/button.h:
 ../Core/Inc/display.h:
 ../Core/Inc/main.h:

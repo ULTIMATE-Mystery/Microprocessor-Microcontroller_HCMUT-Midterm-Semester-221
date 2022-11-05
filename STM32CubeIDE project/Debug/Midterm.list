@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  00020024  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00008e1c  00000000  00000000  0002004d  2**0
+ 12 .debug_info   00008bee  00000000  00000000  0002004d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00001bdc  00000000  00000000  00028e69  2**0
+ 13 .debug_abbrev 00001a6c  00000000  00000000  00028c3b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000a50  00000000  00000000  0002aa48  2**3
+ 14 .debug_aranges 00000a20  00000000  00000000  0002a6a8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000930  00000000  00000000  0002b498  2**3
+ 15 .debug_ranges 00000920  00000000  00000000  0002b0c8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0001710f  00000000  00000000  0002bdc8  2**0
+ 16 .debug_macro  00016c9d  00000000  00000000  0002b9e8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000c61e  00000000  00000000  00042ed7  2**0
+ 17 .debug_line   0000b78e  00000000  00000000  00042685  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00081fe8  00000000  00000000  0004f4f5  2**0
+ 18 .debug_str    00081f64  00000000  00000000  0004de13  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  000d14dd  2**0
+ 19 .comment      00000050  00000000  00000000  000cfd77  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002824  00000000  00000000  000d1530  2**2
+ 20 .debug_frame  00002804  00000000  00000000  000cfdc8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -655,644 +655,642 @@ int bufferValue(){
  800050a:	4770      	bx	lr
  800050c:	20000080 	.word	0x20000080
 
-08000510 <fsm_automatic_run>:
+08000510 <fsm_normal_pressed>:
+ *      Author: Phạm Duy Quang
+ */
 
-#include "fsm_automatic.h"
+#include "fsm_button.h"
 
-void fsm_automatic_run(){
+void fsm_normal_pressed(){
  8000510:	b580      	push	{r7, lr}
  8000512:	af00      	add	r7, sp, #0
+	//isButtonNormalPressed(0): RESET, (1): INC, (2): DEC. Same rule applies to isButtonLongPressed()
 	switch(status){
- 8000514:	4b39      	ldr	r3, [pc, #228]	; (80005fc <fsm_automatic_run+0xec>)
+ 8000514:	4baa      	ldr	r3, [pc, #680]	; (80007c0 <fsm_normal_pressed+0x2b0>)
  8000516:	681b      	ldr	r3, [r3, #0]
- 8000518:	2b17      	cmp	r3, #23
- 800051a:	d16a      	bne.n	80005f2 <fsm_automatic_run+0xe2>
-	//isButtonNormalPressed(0): RESET, (1): INC, (2): DEC. Same rule applies to isButtonPressed3s()
-	case COUNTER_AUTO_DEC:
-		//decrement counter every 1 second
-		if (timer_flag == 1){
- 800051c:	4b38      	ldr	r3, [pc, #224]	; (8000600 <fsm_automatic_run+0xf0>)
- 800051e:	681b      	ldr	r3, [r3, #0]
- 8000520:	2b01      	cmp	r3, #1
- 8000522:	d113      	bne.n	800054c <fsm_automatic_run+0x3c>
-			clear7SEG();
- 8000524:	f7ff ff1a 	bl	800035c <clear7SEG>
-			if (bufferValue() == 0){
- 8000528:	f7ff ffe8 	bl	80004fc <bufferValue>
- 800052c:	4603      	mov	r3, r0
- 800052e:	2b00      	cmp	r3, #0
- 8000530:	d102      	bne.n	8000538 <fsm_automatic_run+0x28>
-				resetBuffer();
- 8000532:	f7ff ff97 	bl	8000464 <resetBuffer>
- 8000536:	e002      	b.n	800053e <fsm_automatic_run+0x2e>
-			}
-			else{
-				decBuffer(1);
- 8000538:	2001      	movs	r0, #1
- 800053a:	f7ff ffb7 	bl	80004ac <decBuffer>
-			}
-			status = COUNTER_AUTO_DEC;
- 800053e:	4b2f      	ldr	r3, [pc, #188]	; (80005fc <fsm_automatic_run+0xec>)
- 8000540:	2217      	movs	r2, #23
- 8000542:	601a      	str	r2, [r3, #0]
-			setTimer(1000);
- 8000544:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8000548:	f000 fb8c 	bl	8000c64 <setTimer>
-		}
-		//switch to RESET when buffer value = 0
-		if (bufferValue() == 0){
- 800054c:	f7ff ffd6 	bl	80004fc <bufferValue>
- 8000550:	4603      	mov	r3, r0
- 8000552:	2b00      	cmp	r3, #0
- 8000554:	d106      	bne.n	8000564 <fsm_automatic_run+0x54>
-			status = COUNTER_RESET;
- 8000556:	4b29      	ldr	r3, [pc, #164]	; (80005fc <fsm_automatic_run+0xec>)
- 8000558:	2201      	movs	r2, #1
- 800055a:	601a      	str	r2, [r3, #0]
-			setTimer(10000);
- 800055c:	f242 7010 	movw	r0, #10000	; 0x2710
- 8000560:	f000 fb80 	bl	8000c64 <setTimer>
-		}
-		//pressed RESET, reset counter and then switch to RESET
-		if (isButtonNormalPressed(0)){
- 8000564:	2000      	movs	r0, #0
- 8000566:	f7ff febd 	bl	80002e4 <isButtonNormalPressed>
- 800056a:	4603      	mov	r3, r0
- 800056c:	2b00      	cmp	r3, #0
- 800056e:	d00a      	beq.n	8000586 <fsm_automatic_run+0x76>
-			clear7SEG();
- 8000570:	f7ff fef4 	bl	800035c <clear7SEG>
-			resetBuffer();
- 8000574:	f7ff ff76 	bl	8000464 <resetBuffer>
-			status = COUNTER_RESET;
- 8000578:	4b20      	ldr	r3, [pc, #128]	; (80005fc <fsm_automatic_run+0xec>)
- 800057a:	2201      	movs	r2, #1
- 800057c:	601a      	str	r2, [r3, #0]
-			setTimer(10000);
- 800057e:	f242 7010 	movw	r0, #10000	; 0x2710
- 8000582:	f000 fb6f 	bl	8000c64 <setTimer>
-		}
-		//pressed INC, increment counter and then switch to INC
-		if (isButtonNormalPressed(1)){
- 8000586:	2001      	movs	r0, #1
- 8000588:	f7ff feac 	bl	80002e4 <isButtonNormalPressed>
- 800058c:	4603      	mov	r3, r0
- 800058e:	2b00      	cmp	r3, #0
- 8000590:	d013      	beq.n	80005ba <fsm_automatic_run+0xaa>
-			clear7SEG();
- 8000592:	f7ff fee3 	bl	800035c <clear7SEG>
-			if (bufferValue() == 9) resetBuffer();
- 8000596:	f7ff ffb1 	bl	80004fc <bufferValue>
- 800059a:	4603      	mov	r3, r0
- 800059c:	2b09      	cmp	r3, #9
- 800059e:	d102      	bne.n	80005a6 <fsm_automatic_run+0x96>
- 80005a0:	f7ff ff60 	bl	8000464 <resetBuffer>
- 80005a4:	e002      	b.n	80005ac <fsm_automatic_run+0x9c>
-			else incBuffer(1);
- 80005a6:	2001      	movs	r0, #1
- 80005a8:	f7ff ff6a 	bl	8000480 <incBuffer>
-			status = COUNTER_INC_NORMAL;
- 80005ac:	4b13      	ldr	r3, [pc, #76]	; (80005fc <fsm_automatic_run+0xec>)
- 80005ae:	2202      	movs	r2, #2
- 80005b0:	601a      	str	r2, [r3, #0]
-			setTimer(10000);
- 80005b2:	f242 7010 	movw	r0, #10000	; 0x2710
- 80005b6:	f000 fb55 	bl	8000c64 <setTimer>
-		}
-		//pressed DEC, decrement counter and then switch to DEC
-		if (isButtonNormalPressed(2)){
- 80005ba:	2002      	movs	r0, #2
- 80005bc:	f7ff fe92 	bl	80002e4 <isButtonNormalPressed>
- 80005c0:	4603      	mov	r3, r0
- 80005c2:	2b00      	cmp	r3, #0
- 80005c4:	d017      	beq.n	80005f6 <fsm_automatic_run+0xe6>
-			clear7SEG();
- 80005c6:	f7ff fec9 	bl	800035c <clear7SEG>
-			if (bufferValue() == 0) updateBuffer(9);
- 80005ca:	f7ff ff97 	bl	80004fc <bufferValue>
- 80005ce:	4603      	mov	r3, r0
- 80005d0:	2b00      	cmp	r3, #0
- 80005d2:	d103      	bne.n	80005dc <fsm_automatic_run+0xcc>
- 80005d4:	2009      	movs	r0, #9
- 80005d6:	f7ff ff7f 	bl	80004d8 <updateBuffer>
- 80005da:	e002      	b.n	80005e2 <fsm_automatic_run+0xd2>
-			else decBuffer(1);
- 80005dc:	2001      	movs	r0, #1
- 80005de:	f7ff ff65 	bl	80004ac <decBuffer>
-			status = COUNTER_DEC_NORMAL;
- 80005e2:	4b06      	ldr	r3, [pc, #24]	; (80005fc <fsm_automatic_run+0xec>)
- 80005e4:	2203      	movs	r2, #3
- 80005e6:	601a      	str	r2, [r3, #0]
-			setTimer(10000);
- 80005e8:	f242 7010 	movw	r0, #10000	; 0x2710
- 80005ec:	f000 fb3a 	bl	8000c64 <setTimer>
-		}
-		break;
- 80005f0:	e001      	b.n	80005f6 <fsm_automatic_run+0xe6>
-	default:
-		break;
- 80005f2:	bf00      	nop
- 80005f4:	e000      	b.n	80005f8 <fsm_automatic_run+0xe8>
-		break;
- 80005f6:	bf00      	nop
-	}
-}
- 80005f8:	bf00      	nop
- 80005fa:	bd80      	pop	{r7, pc}
- 80005fc:	20000084 	.word	0x20000084
- 8000600:	200000d0 	.word	0x200000d0
-
-08000604 <fsm_long_pressed_run>:
-
-#include "fsm_long_pressed.h"
-
-void fsm_long_pressed_run(){
- 8000604:	b580      	push	{r7, lr}
- 8000606:	af00      	add	r7, sp, #0
-	//isButtonNormalPressed(0): RESET, (1): INC, (2): DEC. Same rule applies to isButtonLongPressed()
-	switch(status){
- 8000608:	4b26      	ldr	r3, [pc, #152]	; (80006a4 <fsm_long_pressed_run+0xa0>)
- 800060a:	681b      	ldr	r3, [r3, #0]
- 800060c:	2b0c      	cmp	r3, #12
- 800060e:	d002      	beq.n	8000616 <fsm_long_pressed_run+0x12>
- 8000610:	2b0d      	cmp	r3, #13
- 8000612:	d020      	beq.n	8000656 <fsm_long_pressed_run+0x52>
-		if (isButtonNormalPressed(2) == 0){
-			status = COUNTER_DEC_NORMAL;
-		}
-		break;
-	default:
-		break;
- 8000614:	e043      	b.n	800069e <fsm_long_pressed_run+0x9a>
-		if (isButtonLongPressed(1)){
- 8000616:	2001      	movs	r0, #1
- 8000618:	f7ff fe82 	bl	8000320 <isButtonLongPressed>
- 800061c:	4603      	mov	r3, r0
- 800061e:	2b00      	cmp	r3, #0
- 8000620:	d00f      	beq.n	8000642 <fsm_long_pressed_run+0x3e>
-			clear7SEG();
- 8000622:	f7ff fe9b 	bl	800035c <clear7SEG>
-			if (bufferValue() == 9) resetBuffer();
- 8000626:	f7ff ff69 	bl	80004fc <bufferValue>
- 800062a:	4603      	mov	r3, r0
- 800062c:	2b09      	cmp	r3, #9
- 800062e:	d102      	bne.n	8000636 <fsm_long_pressed_run+0x32>
- 8000630:	f7ff ff18 	bl	8000464 <resetBuffer>
- 8000634:	e002      	b.n	800063c <fsm_long_pressed_run+0x38>
-			else incBuffer(1);
- 8000636:	2001      	movs	r0, #1
- 8000638:	f7ff ff22 	bl	8000480 <incBuffer>
-			status = COUNTER_INC_LONG;
- 800063c:	4b19      	ldr	r3, [pc, #100]	; (80006a4 <fsm_long_pressed_run+0xa0>)
- 800063e:	220c      	movs	r2, #12
- 8000640:	601a      	str	r2, [r3, #0]
-		if (isButtonNormalPressed(1) == 0){
- 8000642:	2001      	movs	r0, #1
- 8000644:	f7ff fe4e 	bl	80002e4 <isButtonNormalPressed>
- 8000648:	4603      	mov	r3, r0
- 800064a:	2b00      	cmp	r3, #0
- 800064c:	d124      	bne.n	8000698 <fsm_long_pressed_run+0x94>
-			status = COUNTER_INC_NORMAL;
- 800064e:	4b15      	ldr	r3, [pc, #84]	; (80006a4 <fsm_long_pressed_run+0xa0>)
- 8000650:	2202      	movs	r2, #2
- 8000652:	601a      	str	r2, [r3, #0]
-		break;
- 8000654:	e020      	b.n	8000698 <fsm_long_pressed_run+0x94>
-		if (isButtonLongPressed(2)){
- 8000656:	2002      	movs	r0, #2
- 8000658:	f7ff fe62 	bl	8000320 <isButtonLongPressed>
- 800065c:	4603      	mov	r3, r0
- 800065e:	2b00      	cmp	r3, #0
- 8000660:	d010      	beq.n	8000684 <fsm_long_pressed_run+0x80>
-			clear7SEG();
- 8000662:	f7ff fe7b 	bl	800035c <clear7SEG>
-			if (bufferValue() == 0) updateBuffer(9);
- 8000666:	f7ff ff49 	bl	80004fc <bufferValue>
- 800066a:	4603      	mov	r3, r0
- 800066c:	2b00      	cmp	r3, #0
- 800066e:	d103      	bne.n	8000678 <fsm_long_pressed_run+0x74>
- 8000670:	2009      	movs	r0, #9
- 8000672:	f7ff ff31 	bl	80004d8 <updateBuffer>
- 8000676:	e002      	b.n	800067e <fsm_long_pressed_run+0x7a>
-			else decBuffer(1);
- 8000678:	2001      	movs	r0, #1
- 800067a:	f7ff ff17 	bl	80004ac <decBuffer>
-			status = COUNTER_DEC_LONG;
- 800067e:	4b09      	ldr	r3, [pc, #36]	; (80006a4 <fsm_long_pressed_run+0xa0>)
- 8000680:	220d      	movs	r2, #13
- 8000682:	601a      	str	r2, [r3, #0]
-		if (isButtonNormalPressed(2) == 0){
- 8000684:	2002      	movs	r0, #2
- 8000686:	f7ff fe2d 	bl	80002e4 <isButtonNormalPressed>
- 800068a:	4603      	mov	r3, r0
- 800068c:	2b00      	cmp	r3, #0
- 800068e:	d105      	bne.n	800069c <fsm_long_pressed_run+0x98>
-			status = COUNTER_DEC_NORMAL;
- 8000690:	4b04      	ldr	r3, [pc, #16]	; (80006a4 <fsm_long_pressed_run+0xa0>)
- 8000692:	2203      	movs	r2, #3
- 8000694:	601a      	str	r2, [r3, #0]
-		break;
- 8000696:	e001      	b.n	800069c <fsm_long_pressed_run+0x98>
-		break;
- 8000698:	bf00      	nop
- 800069a:	e000      	b.n	800069e <fsm_long_pressed_run+0x9a>
-		break;
- 800069c:	bf00      	nop
-	}
-}
- 800069e:	bf00      	nop
- 80006a0:	bd80      	pop	{r7, pc}
- 80006a2:	bf00      	nop
- 80006a4:	20000084 	.word	0x20000084
-
-080006a8 <fsm_short_pressed_run>:
-
-#include "fsm_short_pressed.h"
-
-void fsm_short_pressed_run(){
- 80006a8:	b580      	push	{r7, lr}
- 80006aa:	af00      	add	r7, sp, #0
-	//isButtonNormalPressed(0): RESET, (1): INC, (2): DEC. Same rule applies to isButtonLongPressed()
-	switch(status){
- 80006ac:	4baa      	ldr	r3, [pc, #680]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 80006ae:	681b      	ldr	r3, [r3, #0]
- 80006b0:	2b03      	cmp	r3, #3
- 80006b2:	f200 8147 	bhi.w	8000944 <fsm_short_pressed_run+0x29c>
- 80006b6:	a201      	add	r2, pc, #4	; (adr r2, 80006bc <fsm_short_pressed_run+0x14>)
- 80006b8:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
- 80006bc:	080006cd 	.word	0x080006cd
- 80006c0:	080006e1 	.word	0x080006e1
- 80006c4:	0800076d 	.word	0x0800076d
- 80006c8:	08000859 	.word	0x08000859
+ 8000518:	2b03      	cmp	r3, #3
+ 800051a:	f200 8147 	bhi.w	80007ac <fsm_normal_pressed+0x29c>
+ 800051e:	a201      	add	r2, pc, #4	; (adr r2, 8000524 <fsm_normal_pressed+0x14>)
+ 8000520:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8000524:	08000535 	.word	0x08000535
+ 8000528:	08000549 	.word	0x08000549
+ 800052c:	080005d5 	.word	0x080005d5
+ 8000530:	080006c1 	.word	0x080006c1
 	case INIT:
 		//switch to RESET state
 		resetBuffer();
- 80006cc:	f7ff feca 	bl	8000464 <resetBuffer>
+ 8000534:	f7ff ff96 	bl	8000464 <resetBuffer>
 		status = COUNTER_RESET;
- 80006d0:	4ba1      	ldr	r3, [pc, #644]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 80006d2:	2201      	movs	r2, #1
- 80006d4:	601a      	str	r2, [r3, #0]
+ 8000538:	4ba1      	ldr	r3, [pc, #644]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 800053a:	2201      	movs	r2, #1
+ 800053c:	601a      	str	r2, [r3, #0]
 		setTimer(10000);	//timeout 10s
- 80006d6:	f242 7010 	movw	r0, #10000	; 0x2710
- 80006da:	f000 fac3 	bl	8000c64 <setTimer>
+ 800053e:	f242 7010 	movw	r0, #10000	; 0x2710
+ 8000542:	f000 fb8f 	bl	8000c64 <setTimer>
 		break;
- 80006de:	e138      	b.n	8000952 <fsm_short_pressed_run+0x2aa>
+ 8000546:	e138      	b.n	80007ba <fsm_normal_pressed+0x2aa>
 	case COUNTER_RESET:
 		//10s passed, do nothing
 		if (timer_flag == 1){
- 80006e0:	4b9e      	ldr	r3, [pc, #632]	; (800095c <fsm_short_pressed_run+0x2b4>)
- 80006e2:	681b      	ldr	r3, [r3, #0]
- 80006e4:	2b01      	cmp	r3, #1
- 80006e6:	d10a      	bne.n	80006fe <fsm_short_pressed_run+0x56>
+ 8000548:	4b9e      	ldr	r3, [pc, #632]	; (80007c4 <fsm_normal_pressed+0x2b4>)
+ 800054a:	681b      	ldr	r3, [r3, #0]
+ 800054c:	2b01      	cmp	r3, #1
+ 800054e:	d10a      	bne.n	8000566 <fsm_normal_pressed+0x56>
 			clear7SEG();
- 80006e8:	f7ff fe38 	bl	800035c <clear7SEG>
+ 8000550:	f7ff ff04 	bl	800035c <clear7SEG>
 			resetBuffer();
- 80006ec:	f7ff feba 	bl	8000464 <resetBuffer>
+ 8000554:	f7ff ff86 	bl	8000464 <resetBuffer>
 			status = COUNTER_RESET;
- 80006f0:	4b99      	ldr	r3, [pc, #612]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 80006f2:	2201      	movs	r2, #1
- 80006f4:	601a      	str	r2, [r3, #0]
+ 8000558:	4b99      	ldr	r3, [pc, #612]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 800055a:	2201      	movs	r2, #1
+ 800055c:	601a      	str	r2, [r3, #0]
 			setTimer(1000);
- 80006f6:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 80006fa:	f000 fab3 	bl	8000c64 <setTimer>
+ 800055e:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 8000562:	f000 fb7f 	bl	8000c64 <setTimer>
 		}
 		//pressed RESET, do nothing
 		if (isButtonNormalPressed(0)){
- 80006fe:	2000      	movs	r0, #0
- 8000700:	f7ff fdf0 	bl	80002e4 <isButtonNormalPressed>
- 8000704:	4603      	mov	r3, r0
- 8000706:	2b00      	cmp	r3, #0
- 8000708:	d00a      	beq.n	8000720 <fsm_short_pressed_run+0x78>
+ 8000566:	2000      	movs	r0, #0
+ 8000568:	f7ff febc 	bl	80002e4 <isButtonNormalPressed>
+ 800056c:	4603      	mov	r3, r0
+ 800056e:	2b00      	cmp	r3, #0
+ 8000570:	d00a      	beq.n	8000588 <fsm_normal_pressed+0x78>
 			clear7SEG();
- 800070a:	f7ff fe27 	bl	800035c <clear7SEG>
+ 8000572:	f7ff fef3 	bl	800035c <clear7SEG>
 			resetBuffer();
- 800070e:	f7ff fea9 	bl	8000464 <resetBuffer>
+ 8000576:	f7ff ff75 	bl	8000464 <resetBuffer>
 			status = COUNTER_RESET;
- 8000712:	4b91      	ldr	r3, [pc, #580]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 8000714:	2201      	movs	r2, #1
- 8000716:	601a      	str	r2, [r3, #0]
+ 800057a:	4b91      	ldr	r3, [pc, #580]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 800057c:	2201      	movs	r2, #1
+ 800057e:	601a      	str	r2, [r3, #0]
 			setTimer(10000);
- 8000718:	f242 7010 	movw	r0, #10000	; 0x2710
- 800071c:	f000 faa2 	bl	8000c64 <setTimer>
+ 8000580:	f242 7010 	movw	r0, #10000	; 0x2710
+ 8000584:	f000 fb6e 	bl	8000c64 <setTimer>
 		}
 		//pressed INC, increment counter and then switch to INC
 		if (isButtonNormalPressed(1)){
- 8000720:	2001      	movs	r0, #1
- 8000722:	f7ff fddf 	bl	80002e4 <isButtonNormalPressed>
- 8000726:	4603      	mov	r3, r0
- 8000728:	2b00      	cmp	r3, #0
- 800072a:	d00b      	beq.n	8000744 <fsm_short_pressed_run+0x9c>
+ 8000588:	2001      	movs	r0, #1
+ 800058a:	f7ff feab 	bl	80002e4 <isButtonNormalPressed>
+ 800058e:	4603      	mov	r3, r0
+ 8000590:	2b00      	cmp	r3, #0
+ 8000592:	d00b      	beq.n	80005ac <fsm_normal_pressed+0x9c>
 			clear7SEG();
- 800072c:	f7ff fe16 	bl	800035c <clear7SEG>
+ 8000594:	f7ff fee2 	bl	800035c <clear7SEG>
 			incBuffer(1);
- 8000730:	2001      	movs	r0, #1
- 8000732:	f7ff fea5 	bl	8000480 <incBuffer>
+ 8000598:	2001      	movs	r0, #1
+ 800059a:	f7ff ff71 	bl	8000480 <incBuffer>
 			status = COUNTER_INC_NORMAL;
- 8000736:	4b88      	ldr	r3, [pc, #544]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 8000738:	2202      	movs	r2, #2
- 800073a:	601a      	str	r2, [r3, #0]
+ 800059e:	4b88      	ldr	r3, [pc, #544]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 80005a0:	2202      	movs	r2, #2
+ 80005a2:	601a      	str	r2, [r3, #0]
 			setTimer(10000);
- 800073c:	f242 7010 	movw	r0, #10000	; 0x2710
- 8000740:	f000 fa90 	bl	8000c64 <setTimer>
+ 80005a4:	f242 7010 	movw	r0, #10000	; 0x2710
+ 80005a8:	f000 fb5c 	bl	8000c64 <setTimer>
 		}
 		//pressed DEC, decrement counter and then switch to DEC
 		if (isButtonNormalPressed(2)){
- 8000744:	2002      	movs	r0, #2
- 8000746:	f7ff fdcd 	bl	80002e4 <isButtonNormalPressed>
- 800074a:	4603      	mov	r3, r0
- 800074c:	2b00      	cmp	r3, #0
- 800074e:	f000 80fb 	beq.w	8000948 <fsm_short_pressed_run+0x2a0>
+ 80005ac:	2002      	movs	r0, #2
+ 80005ae:	f7ff fe99 	bl	80002e4 <isButtonNormalPressed>
+ 80005b2:	4603      	mov	r3, r0
+ 80005b4:	2b00      	cmp	r3, #0
+ 80005b6:	f000 80fb 	beq.w	80007b0 <fsm_normal_pressed+0x2a0>
 			clear7SEG();
- 8000752:	f7ff fe03 	bl	800035c <clear7SEG>
+ 80005ba:	f7ff fecf 	bl	800035c <clear7SEG>
 			updateBuffer(9);
- 8000756:	2009      	movs	r0, #9
- 8000758:	f7ff febe 	bl	80004d8 <updateBuffer>
+ 80005be:	2009      	movs	r0, #9
+ 80005c0:	f7ff ff8a 	bl	80004d8 <updateBuffer>
 			status = COUNTER_DEC_NORMAL;
- 800075c:	4b7e      	ldr	r3, [pc, #504]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 800075e:	2203      	movs	r2, #3
- 8000760:	601a      	str	r2, [r3, #0]
+ 80005c4:	4b7e      	ldr	r3, [pc, #504]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 80005c6:	2203      	movs	r2, #3
+ 80005c8:	601a      	str	r2, [r3, #0]
 			setTimer(10000);
- 8000762:	f242 7010 	movw	r0, #10000	; 0x2710
- 8000766:	f000 fa7d 	bl	8000c64 <setTimer>
+ 80005ca:	f242 7010 	movw	r0, #10000	; 0x2710
+ 80005ce:	f000 fb49 	bl	8000c64 <setTimer>
 		}
 		break;
- 800076a:	e0ed      	b.n	8000948 <fsm_short_pressed_run+0x2a0>
+ 80005d2:	e0ed      	b.n	80007b0 <fsm_normal_pressed+0x2a0>
 	case COUNTER_INC_NORMAL:
 		//10s passed, decrement counter (if counter != 0) and then switch to DEC_AUTO
 		if (timer_flag == 1){
- 800076c:	4b7b      	ldr	r3, [pc, #492]	; (800095c <fsm_short_pressed_run+0x2b4>)
- 800076e:	681b      	ldr	r3, [r3, #0]
- 8000770:	2b01      	cmp	r3, #1
- 8000772:	d113      	bne.n	800079c <fsm_short_pressed_run+0xf4>
+ 80005d4:	4b7b      	ldr	r3, [pc, #492]	; (80007c4 <fsm_normal_pressed+0x2b4>)
+ 80005d6:	681b      	ldr	r3, [r3, #0]
+ 80005d8:	2b01      	cmp	r3, #1
+ 80005da:	d113      	bne.n	8000604 <fsm_normal_pressed+0xf4>
 			clear7SEG();
- 8000774:	f7ff fdf2 	bl	800035c <clear7SEG>
+ 80005dc:	f7ff febe 	bl	800035c <clear7SEG>
 			if (bufferValue() != 0) decBuffer(1);
- 8000778:	f7ff fec0 	bl	80004fc <bufferValue>
- 800077c:	4603      	mov	r3, r0
- 800077e:	2b00      	cmp	r3, #0
- 8000780:	d003      	beq.n	800078a <fsm_short_pressed_run+0xe2>
- 8000782:	2001      	movs	r0, #1
- 8000784:	f7ff fe92 	bl	80004ac <decBuffer>
- 8000788:	e001      	b.n	800078e <fsm_short_pressed_run+0xe6>
+ 80005e0:	f7ff ff8c 	bl	80004fc <bufferValue>
+ 80005e4:	4603      	mov	r3, r0
+ 80005e6:	2b00      	cmp	r3, #0
+ 80005e8:	d003      	beq.n	80005f2 <fsm_normal_pressed+0xe2>
+ 80005ea:	2001      	movs	r0, #1
+ 80005ec:	f7ff ff5e 	bl	80004ac <decBuffer>
+ 80005f0:	e001      	b.n	80005f6 <fsm_normal_pressed+0xe6>
 			else resetBuffer();
- 800078a:	f7ff fe6b 	bl	8000464 <resetBuffer>
+ 80005f2:	f7ff ff37 	bl	8000464 <resetBuffer>
 			status = COUNTER_AUTO_DEC;
- 800078e:	4b72      	ldr	r3, [pc, #456]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 8000790:	2217      	movs	r2, #23
- 8000792:	601a      	str	r2, [r3, #0]
+ 80005f6:	4b72      	ldr	r3, [pc, #456]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 80005f8:	2217      	movs	r2, #23
+ 80005fa:	601a      	str	r2, [r3, #0]
 			setTimer(1000);
- 8000794:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8000798:	f000 fa64 	bl	8000c64 <setTimer>
+ 80005fc:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 8000600:	f000 fb30 	bl	8000c64 <setTimer>
 		}
 		//pressed RESET, reset counter and then switch to RESET
 		if (isButtonNormalPressed(0)){
- 800079c:	2000      	movs	r0, #0
- 800079e:	f7ff fda1 	bl	80002e4 <isButtonNormalPressed>
- 80007a2:	4603      	mov	r3, r0
- 80007a4:	2b00      	cmp	r3, #0
- 80007a6:	d00a      	beq.n	80007be <fsm_short_pressed_run+0x116>
+ 8000604:	2000      	movs	r0, #0
+ 8000606:	f7ff fe6d 	bl	80002e4 <isButtonNormalPressed>
+ 800060a:	4603      	mov	r3, r0
+ 800060c:	2b00      	cmp	r3, #0
+ 800060e:	d00a      	beq.n	8000626 <fsm_normal_pressed+0x116>
 			clear7SEG();
- 80007a8:	f7ff fdd8 	bl	800035c <clear7SEG>
+ 8000610:	f7ff fea4 	bl	800035c <clear7SEG>
 			resetBuffer();
- 80007ac:	f7ff fe5a 	bl	8000464 <resetBuffer>
+ 8000614:	f7ff ff26 	bl	8000464 <resetBuffer>
 			status = COUNTER_RESET;
- 80007b0:	4b69      	ldr	r3, [pc, #420]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 80007b2:	2201      	movs	r2, #1
- 80007b4:	601a      	str	r2, [r3, #0]
+ 8000618:	4b69      	ldr	r3, [pc, #420]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 800061a:	2201      	movs	r2, #1
+ 800061c:	601a      	str	r2, [r3, #0]
 			setTimer(10000);
- 80007b6:	f242 7010 	movw	r0, #10000	; 0x2710
- 80007ba:	f000 fa53 	bl	8000c64 <setTimer>
+ 800061e:	f242 7010 	movw	r0, #10000	; 0x2710
+ 8000622:	f000 fb1f 	bl	8000c64 <setTimer>
 		}
 		//pressed INC, increment counter
 		if (isButtonNormalPressed(1)){
- 80007be:	2001      	movs	r0, #1
- 80007c0:	f7ff fd90 	bl	80002e4 <isButtonNormalPressed>
- 80007c4:	4603      	mov	r3, r0
- 80007c6:	2b00      	cmp	r3, #0
- 80007c8:	d013      	beq.n	80007f2 <fsm_short_pressed_run+0x14a>
+ 8000626:	2001      	movs	r0, #1
+ 8000628:	f7ff fe5c 	bl	80002e4 <isButtonNormalPressed>
+ 800062c:	4603      	mov	r3, r0
+ 800062e:	2b00      	cmp	r3, #0
+ 8000630:	d013      	beq.n	800065a <fsm_normal_pressed+0x14a>
 			clear7SEG();
- 80007ca:	f7ff fdc7 	bl	800035c <clear7SEG>
+ 8000632:	f7ff fe93 	bl	800035c <clear7SEG>
 			if (bufferValue() == 9) resetBuffer();
- 80007ce:	f7ff fe95 	bl	80004fc <bufferValue>
- 80007d2:	4603      	mov	r3, r0
- 80007d4:	2b09      	cmp	r3, #9
- 80007d6:	d102      	bne.n	80007de <fsm_short_pressed_run+0x136>
- 80007d8:	f7ff fe44 	bl	8000464 <resetBuffer>
- 80007dc:	e002      	b.n	80007e4 <fsm_short_pressed_run+0x13c>
+ 8000636:	f7ff ff61 	bl	80004fc <bufferValue>
+ 800063a:	4603      	mov	r3, r0
+ 800063c:	2b09      	cmp	r3, #9
+ 800063e:	d102      	bne.n	8000646 <fsm_normal_pressed+0x136>
+ 8000640:	f7ff ff10 	bl	8000464 <resetBuffer>
+ 8000644:	e002      	b.n	800064c <fsm_normal_pressed+0x13c>
 			else incBuffer(1);
- 80007de:	2001      	movs	r0, #1
- 80007e0:	f7ff fe4e 	bl	8000480 <incBuffer>
+ 8000646:	2001      	movs	r0, #1
+ 8000648:	f7ff ff1a 	bl	8000480 <incBuffer>
 			status = COUNTER_INC_NORMAL;
- 80007e4:	4b5c      	ldr	r3, [pc, #368]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 80007e6:	2202      	movs	r2, #2
- 80007e8:	601a      	str	r2, [r3, #0]
+ 800064c:	4b5c      	ldr	r3, [pc, #368]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 800064e:	2202      	movs	r2, #2
+ 8000650:	601a      	str	r2, [r3, #0]
 			setTimer(10000);
- 80007ea:	f242 7010 	movw	r0, #10000	; 0x2710
- 80007ee:	f000 fa39 	bl	8000c64 <setTimer>
+ 8000652:	f242 7010 	movw	r0, #10000	; 0x2710
+ 8000656:	f000 fb05 	bl	8000c64 <setTimer>
 		}
 		//pressed DEC, decrement counter and then switch to DEC
 		if (isButtonNormalPressed(2)){
- 80007f2:	2002      	movs	r0, #2
- 80007f4:	f7ff fd76 	bl	80002e4 <isButtonNormalPressed>
- 80007f8:	4603      	mov	r3, r0
- 80007fa:	2b00      	cmp	r3, #0
- 80007fc:	d014      	beq.n	8000828 <fsm_short_pressed_run+0x180>
+ 800065a:	2002      	movs	r0, #2
+ 800065c:	f7ff fe42 	bl	80002e4 <isButtonNormalPressed>
+ 8000660:	4603      	mov	r3, r0
+ 8000662:	2b00      	cmp	r3, #0
+ 8000664:	d014      	beq.n	8000690 <fsm_normal_pressed+0x180>
 			clear7SEG();
- 80007fe:	f7ff fdad 	bl	800035c <clear7SEG>
+ 8000666:	f7ff fe79 	bl	800035c <clear7SEG>
 			if (bufferValue() == 0) updateBuffer(9);
- 8000802:	f7ff fe7b 	bl	80004fc <bufferValue>
- 8000806:	4603      	mov	r3, r0
- 8000808:	2b00      	cmp	r3, #0
- 800080a:	d103      	bne.n	8000814 <fsm_short_pressed_run+0x16c>
- 800080c:	2009      	movs	r0, #9
- 800080e:	f7ff fe63 	bl	80004d8 <updateBuffer>
- 8000812:	e002      	b.n	800081a <fsm_short_pressed_run+0x172>
+ 800066a:	f7ff ff47 	bl	80004fc <bufferValue>
+ 800066e:	4603      	mov	r3, r0
+ 8000670:	2b00      	cmp	r3, #0
+ 8000672:	d103      	bne.n	800067c <fsm_normal_pressed+0x16c>
+ 8000674:	2009      	movs	r0, #9
+ 8000676:	f7ff ff2f 	bl	80004d8 <updateBuffer>
+ 800067a:	e002      	b.n	8000682 <fsm_normal_pressed+0x172>
 			else decBuffer(1);
- 8000814:	2001      	movs	r0, #1
- 8000816:	f7ff fe49 	bl	80004ac <decBuffer>
+ 800067c:	2001      	movs	r0, #1
+ 800067e:	f7ff ff15 	bl	80004ac <decBuffer>
 			status = COUNTER_DEC_NORMAL;
- 800081a:	4b4f      	ldr	r3, [pc, #316]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 800081c:	2203      	movs	r2, #3
- 800081e:	601a      	str	r2, [r3, #0]
+ 8000682:	4b4f      	ldr	r3, [pc, #316]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 8000684:	2203      	movs	r2, #3
+ 8000686:	601a      	str	r2, [r3, #0]
 			setTimer(10000);
- 8000820:	f242 7010 	movw	r0, #10000	; 0x2710
- 8000824:	f000 fa1e 	bl	8000c64 <setTimer>
+ 8000688:	f242 7010 	movw	r0, #10000	; 0x2710
+ 800068c:	f000 faea 	bl	8000c64 <setTimer>
 		}
 		//pressed INC for 3 seconds, increment counter and switch to COUNTER_INC_LONG
 		if (isButtonLongPressed(1)){
- 8000828:	2001      	movs	r0, #1
- 800082a:	f7ff fd79 	bl	8000320 <isButtonLongPressed>
- 800082e:	4603      	mov	r3, r0
- 8000830:	2b00      	cmp	r3, #0
- 8000832:	f000 808b 	beq.w	800094c <fsm_short_pressed_run+0x2a4>
+ 8000690:	2001      	movs	r0, #1
+ 8000692:	f7ff fe45 	bl	8000320 <isButtonLongPressed>
+ 8000696:	4603      	mov	r3, r0
+ 8000698:	2b00      	cmp	r3, #0
+ 800069a:	f000 808b 	beq.w	80007b4 <fsm_normal_pressed+0x2a4>
 			clear7SEG();
- 8000836:	f7ff fd91 	bl	800035c <clear7SEG>
+ 800069e:	f7ff fe5d 	bl	800035c <clear7SEG>
 			if (bufferValue() == 9) resetBuffer();
- 800083a:	f7ff fe5f 	bl	80004fc <bufferValue>
- 800083e:	4603      	mov	r3, r0
- 8000840:	2b09      	cmp	r3, #9
- 8000842:	d102      	bne.n	800084a <fsm_short_pressed_run+0x1a2>
- 8000844:	f7ff fe0e 	bl	8000464 <resetBuffer>
- 8000848:	e002      	b.n	8000850 <fsm_short_pressed_run+0x1a8>
+ 80006a2:	f7ff ff2b 	bl	80004fc <bufferValue>
+ 80006a6:	4603      	mov	r3, r0
+ 80006a8:	2b09      	cmp	r3, #9
+ 80006aa:	d102      	bne.n	80006b2 <fsm_normal_pressed+0x1a2>
+ 80006ac:	f7ff feda 	bl	8000464 <resetBuffer>
+ 80006b0:	e002      	b.n	80006b8 <fsm_normal_pressed+0x1a8>
 			else incBuffer(1);
- 800084a:	2001      	movs	r0, #1
- 800084c:	f7ff fe18 	bl	8000480 <incBuffer>
+ 80006b2:	2001      	movs	r0, #1
+ 80006b4:	f7ff fee4 	bl	8000480 <incBuffer>
 			status = COUNTER_INC_LONG;
- 8000850:	4b41      	ldr	r3, [pc, #260]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 8000852:	220c      	movs	r2, #12
- 8000854:	601a      	str	r2, [r3, #0]
+ 80006b8:	4b41      	ldr	r3, [pc, #260]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 80006ba:	220c      	movs	r2, #12
+ 80006bc:	601a      	str	r2, [r3, #0]
 		}
 		break;
- 8000856:	e079      	b.n	800094c <fsm_short_pressed_run+0x2a4>
+ 80006be:	e079      	b.n	80007b4 <fsm_normal_pressed+0x2a4>
 	case COUNTER_DEC_NORMAL:
 		//10s passed, decrement counter (if != 0) and then switch to DEC_AUTO
 		if (timer_flag == 1){
- 8000858:	4b40      	ldr	r3, [pc, #256]	; (800095c <fsm_short_pressed_run+0x2b4>)
- 800085a:	681b      	ldr	r3, [r3, #0]
- 800085c:	2b01      	cmp	r3, #1
- 800085e:	d113      	bne.n	8000888 <fsm_short_pressed_run+0x1e0>
+ 80006c0:	4b40      	ldr	r3, [pc, #256]	; (80007c4 <fsm_normal_pressed+0x2b4>)
+ 80006c2:	681b      	ldr	r3, [r3, #0]
+ 80006c4:	2b01      	cmp	r3, #1
+ 80006c6:	d113      	bne.n	80006f0 <fsm_normal_pressed+0x1e0>
 			clear7SEG();
- 8000860:	f7ff fd7c 	bl	800035c <clear7SEG>
+ 80006c8:	f7ff fe48 	bl	800035c <clear7SEG>
 			if (bufferValue() == 0){
- 8000864:	f7ff fe4a 	bl	80004fc <bufferValue>
- 8000868:	4603      	mov	r3, r0
- 800086a:	2b00      	cmp	r3, #0
- 800086c:	d102      	bne.n	8000874 <fsm_short_pressed_run+0x1cc>
+ 80006cc:	f7ff ff16 	bl	80004fc <bufferValue>
+ 80006d0:	4603      	mov	r3, r0
+ 80006d2:	2b00      	cmp	r3, #0
+ 80006d4:	d102      	bne.n	80006dc <fsm_normal_pressed+0x1cc>
 				resetBuffer();
- 800086e:	f7ff fdf9 	bl	8000464 <resetBuffer>
- 8000872:	e002      	b.n	800087a <fsm_short_pressed_run+0x1d2>
+ 80006d6:	f7ff fec5 	bl	8000464 <resetBuffer>
+ 80006da:	e002      	b.n	80006e2 <fsm_normal_pressed+0x1d2>
 			}
 			else{
 				decBuffer(1);
- 8000874:	2001      	movs	r0, #1
- 8000876:	f7ff fe19 	bl	80004ac <decBuffer>
+ 80006dc:	2001      	movs	r0, #1
+ 80006de:	f7ff fee5 	bl	80004ac <decBuffer>
 			}
 			status = COUNTER_AUTO_DEC;
- 800087a:	4b37      	ldr	r3, [pc, #220]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 800087c:	2217      	movs	r2, #23
- 800087e:	601a      	str	r2, [r3, #0]
+ 80006e2:	4b37      	ldr	r3, [pc, #220]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 80006e4:	2217      	movs	r2, #23
+ 80006e6:	601a      	str	r2, [r3, #0]
 			setTimer(1000);
- 8000880:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8000884:	f000 f9ee 	bl	8000c64 <setTimer>
+ 80006e8:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 80006ec:	f000 faba 	bl	8000c64 <setTimer>
 		}
 		//pressed RESET, reset counter and then switch to RESET
 		if (isButtonNormalPressed(0)){
- 8000888:	2000      	movs	r0, #0
- 800088a:	f7ff fd2b 	bl	80002e4 <isButtonNormalPressed>
- 800088e:	4603      	mov	r3, r0
- 8000890:	2b00      	cmp	r3, #0
- 8000892:	d00a      	beq.n	80008aa <fsm_short_pressed_run+0x202>
+ 80006f0:	2000      	movs	r0, #0
+ 80006f2:	f7ff fdf7 	bl	80002e4 <isButtonNormalPressed>
+ 80006f6:	4603      	mov	r3, r0
+ 80006f8:	2b00      	cmp	r3, #0
+ 80006fa:	d00a      	beq.n	8000712 <fsm_normal_pressed+0x202>
 			clear7SEG();
- 8000894:	f7ff fd62 	bl	800035c <clear7SEG>
+ 80006fc:	f7ff fe2e 	bl	800035c <clear7SEG>
 			resetBuffer();
- 8000898:	f7ff fde4 	bl	8000464 <resetBuffer>
+ 8000700:	f7ff feb0 	bl	8000464 <resetBuffer>
 			status = COUNTER_RESET;
- 800089c:	4b2e      	ldr	r3, [pc, #184]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 800089e:	2201      	movs	r2, #1
- 80008a0:	601a      	str	r2, [r3, #0]
+ 8000704:	4b2e      	ldr	r3, [pc, #184]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 8000706:	2201      	movs	r2, #1
+ 8000708:	601a      	str	r2, [r3, #0]
 			setTimer(10000);
- 80008a2:	f242 7010 	movw	r0, #10000	; 0x2710
- 80008a6:	f000 f9dd 	bl	8000c64 <setTimer>
+ 800070a:	f242 7010 	movw	r0, #10000	; 0x2710
+ 800070e:	f000 faa9 	bl	8000c64 <setTimer>
 		}
 		//pressed INC, increment counter and then switch to INC
 		if (isButtonNormalPressed(1)){
- 80008aa:	2001      	movs	r0, #1
- 80008ac:	f7ff fd1a 	bl	80002e4 <isButtonNormalPressed>
- 80008b0:	4603      	mov	r3, r0
- 80008b2:	2b00      	cmp	r3, #0
- 80008b4:	d013      	beq.n	80008de <fsm_short_pressed_run+0x236>
+ 8000712:	2001      	movs	r0, #1
+ 8000714:	f7ff fde6 	bl	80002e4 <isButtonNormalPressed>
+ 8000718:	4603      	mov	r3, r0
+ 800071a:	2b00      	cmp	r3, #0
+ 800071c:	d013      	beq.n	8000746 <fsm_normal_pressed+0x236>
 			clear7SEG();
- 80008b6:	f7ff fd51 	bl	800035c <clear7SEG>
+ 800071e:	f7ff fe1d 	bl	800035c <clear7SEG>
 			if (bufferValue() == 9) resetBuffer();
- 80008ba:	f7ff fe1f 	bl	80004fc <bufferValue>
- 80008be:	4603      	mov	r3, r0
- 80008c0:	2b09      	cmp	r3, #9
- 80008c2:	d102      	bne.n	80008ca <fsm_short_pressed_run+0x222>
- 80008c4:	f7ff fdce 	bl	8000464 <resetBuffer>
- 80008c8:	e002      	b.n	80008d0 <fsm_short_pressed_run+0x228>
+ 8000722:	f7ff feeb 	bl	80004fc <bufferValue>
+ 8000726:	4603      	mov	r3, r0
+ 8000728:	2b09      	cmp	r3, #9
+ 800072a:	d102      	bne.n	8000732 <fsm_normal_pressed+0x222>
+ 800072c:	f7ff fe9a 	bl	8000464 <resetBuffer>
+ 8000730:	e002      	b.n	8000738 <fsm_normal_pressed+0x228>
 			else incBuffer(1);
- 80008ca:	2001      	movs	r0, #1
- 80008cc:	f7ff fdd8 	bl	8000480 <incBuffer>
+ 8000732:	2001      	movs	r0, #1
+ 8000734:	f7ff fea4 	bl	8000480 <incBuffer>
 			status = COUNTER_INC_NORMAL;
- 80008d0:	4b21      	ldr	r3, [pc, #132]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 80008d2:	2202      	movs	r2, #2
- 80008d4:	601a      	str	r2, [r3, #0]
+ 8000738:	4b21      	ldr	r3, [pc, #132]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 800073a:	2202      	movs	r2, #2
+ 800073c:	601a      	str	r2, [r3, #0]
 			setTimer(10000);
- 80008d6:	f242 7010 	movw	r0, #10000	; 0x2710
- 80008da:	f000 f9c3 	bl	8000c64 <setTimer>
+ 800073e:	f242 7010 	movw	r0, #10000	; 0x2710
+ 8000742:	f000 fa8f 	bl	8000c64 <setTimer>
 		}
 		//pressed DEC, decrement counter
 		if (isButtonNormalPressed(2)){
- 80008de:	2002      	movs	r0, #2
- 80008e0:	f7ff fd00 	bl	80002e4 <isButtonNormalPressed>
- 80008e4:	4603      	mov	r3, r0
- 80008e6:	2b00      	cmp	r3, #0
- 80008e8:	d014      	beq.n	8000914 <fsm_short_pressed_run+0x26c>
+ 8000746:	2002      	movs	r0, #2
+ 8000748:	f7ff fdcc 	bl	80002e4 <isButtonNormalPressed>
+ 800074c:	4603      	mov	r3, r0
+ 800074e:	2b00      	cmp	r3, #0
+ 8000750:	d014      	beq.n	800077c <fsm_normal_pressed+0x26c>
 			clear7SEG();
- 80008ea:	f7ff fd37 	bl	800035c <clear7SEG>
+ 8000752:	f7ff fe03 	bl	800035c <clear7SEG>
 			if (bufferValue() == 0) updateBuffer(9);
- 80008ee:	f7ff fe05 	bl	80004fc <bufferValue>
- 80008f2:	4603      	mov	r3, r0
- 80008f4:	2b00      	cmp	r3, #0
- 80008f6:	d103      	bne.n	8000900 <fsm_short_pressed_run+0x258>
- 80008f8:	2009      	movs	r0, #9
- 80008fa:	f7ff fded 	bl	80004d8 <updateBuffer>
- 80008fe:	e002      	b.n	8000906 <fsm_short_pressed_run+0x25e>
+ 8000756:	f7ff fed1 	bl	80004fc <bufferValue>
+ 800075a:	4603      	mov	r3, r0
+ 800075c:	2b00      	cmp	r3, #0
+ 800075e:	d103      	bne.n	8000768 <fsm_normal_pressed+0x258>
+ 8000760:	2009      	movs	r0, #9
+ 8000762:	f7ff feb9 	bl	80004d8 <updateBuffer>
+ 8000766:	e002      	b.n	800076e <fsm_normal_pressed+0x25e>
 			else decBuffer(1);
- 8000900:	2001      	movs	r0, #1
- 8000902:	f7ff fdd3 	bl	80004ac <decBuffer>
+ 8000768:	2001      	movs	r0, #1
+ 800076a:	f7ff fe9f 	bl	80004ac <decBuffer>
 			status = COUNTER_DEC_NORMAL;
- 8000906:	4b14      	ldr	r3, [pc, #80]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 8000908:	2203      	movs	r2, #3
- 800090a:	601a      	str	r2, [r3, #0]
+ 800076e:	4b14      	ldr	r3, [pc, #80]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 8000770:	2203      	movs	r2, #3
+ 8000772:	601a      	str	r2, [r3, #0]
 			setTimer(10000);
- 800090c:	f242 7010 	movw	r0, #10000	; 0x2710
- 8000910:	f000 f9a8 	bl	8000c64 <setTimer>
+ 8000774:	f242 7010 	movw	r0, #10000	; 0x2710
+ 8000778:	f000 fa74 	bl	8000c64 <setTimer>
 		}
 		//pressed DEC for 3 seconds, decrement counter and switch to COUNTER_DEC_LONG
 		if (isButtonLongPressed(2)){
- 8000914:	2002      	movs	r0, #2
- 8000916:	f7ff fd03 	bl	8000320 <isButtonLongPressed>
- 800091a:	4603      	mov	r3, r0
- 800091c:	2b00      	cmp	r3, #0
- 800091e:	d017      	beq.n	8000950 <fsm_short_pressed_run+0x2a8>
+ 800077c:	2002      	movs	r0, #2
+ 800077e:	f7ff fdcf 	bl	8000320 <isButtonLongPressed>
+ 8000782:	4603      	mov	r3, r0
+ 8000784:	2b00      	cmp	r3, #0
+ 8000786:	d017      	beq.n	80007b8 <fsm_normal_pressed+0x2a8>
 			clear7SEG();
- 8000920:	f7ff fd1c 	bl	800035c <clear7SEG>
+ 8000788:	f7ff fde8 	bl	800035c <clear7SEG>
 			if (bufferValue() == 0) updateBuffer(9);
- 8000924:	f7ff fdea 	bl	80004fc <bufferValue>
- 8000928:	4603      	mov	r3, r0
- 800092a:	2b00      	cmp	r3, #0
- 800092c:	d103      	bne.n	8000936 <fsm_short_pressed_run+0x28e>
- 800092e:	2009      	movs	r0, #9
- 8000930:	f7ff fdd2 	bl	80004d8 <updateBuffer>
- 8000934:	e002      	b.n	800093c <fsm_short_pressed_run+0x294>
+ 800078c:	f7ff feb6 	bl	80004fc <bufferValue>
+ 8000790:	4603      	mov	r3, r0
+ 8000792:	2b00      	cmp	r3, #0
+ 8000794:	d103      	bne.n	800079e <fsm_normal_pressed+0x28e>
+ 8000796:	2009      	movs	r0, #9
+ 8000798:	f7ff fe9e 	bl	80004d8 <updateBuffer>
+ 800079c:	e002      	b.n	80007a4 <fsm_normal_pressed+0x294>
 			else decBuffer(1);
- 8000936:	2001      	movs	r0, #1
- 8000938:	f7ff fdb8 	bl	80004ac <decBuffer>
+ 800079e:	2001      	movs	r0, #1
+ 80007a0:	f7ff fe84 	bl	80004ac <decBuffer>
 			status = COUNTER_DEC_LONG;
- 800093c:	4b06      	ldr	r3, [pc, #24]	; (8000958 <fsm_short_pressed_run+0x2b0>)
- 800093e:	220d      	movs	r2, #13
- 8000940:	601a      	str	r2, [r3, #0]
+ 80007a4:	4b06      	ldr	r3, [pc, #24]	; (80007c0 <fsm_normal_pressed+0x2b0>)
+ 80007a6:	220d      	movs	r2, #13
+ 80007a8:	601a      	str	r2, [r3, #0]
 		}
 		break;
- 8000942:	e005      	b.n	8000950 <fsm_short_pressed_run+0x2a8>
+ 80007aa:	e005      	b.n	80007b8 <fsm_normal_pressed+0x2a8>
 	default:
 		break;
- 8000944:	bf00      	nop
- 8000946:	e004      	b.n	8000952 <fsm_short_pressed_run+0x2aa>
+ 80007ac:	bf00      	nop
+ 80007ae:	e004      	b.n	80007ba <fsm_normal_pressed+0x2aa>
 		break;
- 8000948:	bf00      	nop
- 800094a:	e002      	b.n	8000952 <fsm_short_pressed_run+0x2aa>
+ 80007b0:	bf00      	nop
+ 80007b2:	e002      	b.n	80007ba <fsm_normal_pressed+0x2aa>
 		break;
- 800094c:	bf00      	nop
- 800094e:	e000      	b.n	8000952 <fsm_short_pressed_run+0x2aa>
+ 80007b4:	bf00      	nop
+ 80007b6:	e000      	b.n	80007ba <fsm_normal_pressed+0x2aa>
 		break;
- 8000950:	bf00      	nop
+ 80007b8:	bf00      	nop
 	}
 }
+ 80007ba:	bf00      	nop
+ 80007bc:	bd80      	pop	{r7, pc}
+ 80007be:	bf00      	nop
+ 80007c0:	20000084 	.word	0x20000084
+ 80007c4:	200000d0 	.word	0x200000d0
+
+080007c8 <fsm_long_pressed>:
+
+void fsm_long_pressed(){
+ 80007c8:	b580      	push	{r7, lr}
+ 80007ca:	af00      	add	r7, sp, #0
+	//isButtonNormalPressed(0): RESET, (1): INC, (2): DEC. Same rule applies to isButtonLongPressed()
+	switch(status){
+ 80007cc:	4b26      	ldr	r3, [pc, #152]	; (8000868 <fsm_long_pressed+0xa0>)
+ 80007ce:	681b      	ldr	r3, [r3, #0]
+ 80007d0:	2b0c      	cmp	r3, #12
+ 80007d2:	d002      	beq.n	80007da <fsm_long_pressed+0x12>
+ 80007d4:	2b0d      	cmp	r3, #13
+ 80007d6:	d020      	beq.n	800081a <fsm_long_pressed+0x52>
+		if (isButtonNormalPressed(2) == 0){
+			status = COUNTER_DEC_NORMAL;
+		}
+		break;
+	default:
+		break;
+ 80007d8:	e043      	b.n	8000862 <fsm_long_pressed+0x9a>
+		if (isButtonLongPressed(1)){
+ 80007da:	2001      	movs	r0, #1
+ 80007dc:	f7ff fda0 	bl	8000320 <isButtonLongPressed>
+ 80007e0:	4603      	mov	r3, r0
+ 80007e2:	2b00      	cmp	r3, #0
+ 80007e4:	d00f      	beq.n	8000806 <fsm_long_pressed+0x3e>
+			clear7SEG();
+ 80007e6:	f7ff fdb9 	bl	800035c <clear7SEG>
+			if (bufferValue() == 9) resetBuffer();
+ 80007ea:	f7ff fe87 	bl	80004fc <bufferValue>
+ 80007ee:	4603      	mov	r3, r0
+ 80007f0:	2b09      	cmp	r3, #9
+ 80007f2:	d102      	bne.n	80007fa <fsm_long_pressed+0x32>
+ 80007f4:	f7ff fe36 	bl	8000464 <resetBuffer>
+ 80007f8:	e002      	b.n	8000800 <fsm_long_pressed+0x38>
+			else incBuffer(1);
+ 80007fa:	2001      	movs	r0, #1
+ 80007fc:	f7ff fe40 	bl	8000480 <incBuffer>
+			status = COUNTER_INC_LONG;
+ 8000800:	4b19      	ldr	r3, [pc, #100]	; (8000868 <fsm_long_pressed+0xa0>)
+ 8000802:	220c      	movs	r2, #12
+ 8000804:	601a      	str	r2, [r3, #0]
+		if (isButtonNormalPressed(1) == 0){
+ 8000806:	2001      	movs	r0, #1
+ 8000808:	f7ff fd6c 	bl	80002e4 <isButtonNormalPressed>
+ 800080c:	4603      	mov	r3, r0
+ 800080e:	2b00      	cmp	r3, #0
+ 8000810:	d124      	bne.n	800085c <fsm_long_pressed+0x94>
+			status = COUNTER_INC_NORMAL;
+ 8000812:	4b15      	ldr	r3, [pc, #84]	; (8000868 <fsm_long_pressed+0xa0>)
+ 8000814:	2202      	movs	r2, #2
+ 8000816:	601a      	str	r2, [r3, #0]
+		break;
+ 8000818:	e020      	b.n	800085c <fsm_long_pressed+0x94>
+		if (isButtonLongPressed(2)){
+ 800081a:	2002      	movs	r0, #2
+ 800081c:	f7ff fd80 	bl	8000320 <isButtonLongPressed>
+ 8000820:	4603      	mov	r3, r0
+ 8000822:	2b00      	cmp	r3, #0
+ 8000824:	d010      	beq.n	8000848 <fsm_long_pressed+0x80>
+			clear7SEG();
+ 8000826:	f7ff fd99 	bl	800035c <clear7SEG>
+			if (bufferValue() == 0) updateBuffer(9);
+ 800082a:	f7ff fe67 	bl	80004fc <bufferValue>
+ 800082e:	4603      	mov	r3, r0
+ 8000830:	2b00      	cmp	r3, #0
+ 8000832:	d103      	bne.n	800083c <fsm_long_pressed+0x74>
+ 8000834:	2009      	movs	r0, #9
+ 8000836:	f7ff fe4f 	bl	80004d8 <updateBuffer>
+ 800083a:	e002      	b.n	8000842 <fsm_long_pressed+0x7a>
+			else decBuffer(1);
+ 800083c:	2001      	movs	r0, #1
+ 800083e:	f7ff fe35 	bl	80004ac <decBuffer>
+			status = COUNTER_DEC_LONG;
+ 8000842:	4b09      	ldr	r3, [pc, #36]	; (8000868 <fsm_long_pressed+0xa0>)
+ 8000844:	220d      	movs	r2, #13
+ 8000846:	601a      	str	r2, [r3, #0]
+		if (isButtonNormalPressed(2) == 0){
+ 8000848:	2002      	movs	r0, #2
+ 800084a:	f7ff fd4b 	bl	80002e4 <isButtonNormalPressed>
+ 800084e:	4603      	mov	r3, r0
+ 8000850:	2b00      	cmp	r3, #0
+ 8000852:	d105      	bne.n	8000860 <fsm_long_pressed+0x98>
+			status = COUNTER_DEC_NORMAL;
+ 8000854:	4b04      	ldr	r3, [pc, #16]	; (8000868 <fsm_long_pressed+0xa0>)
+ 8000856:	2203      	movs	r2, #3
+ 8000858:	601a      	str	r2, [r3, #0]
+		break;
+ 800085a:	e001      	b.n	8000860 <fsm_long_pressed+0x98>
+		break;
+ 800085c:	bf00      	nop
+ 800085e:	e000      	b.n	8000862 <fsm_long_pressed+0x9a>
+		break;
+ 8000860:	bf00      	nop
+	}
+}
+ 8000862:	bf00      	nop
+ 8000864:	bd80      	pop	{r7, pc}
+ 8000866:	bf00      	nop
+ 8000868:	20000084 	.word	0x20000084
+
+0800086c <fsm_auto_dec>:
+
+void fsm_auto_dec(){
+ 800086c:	b580      	push	{r7, lr}
+ 800086e:	af00      	add	r7, sp, #0
+	switch(status){
+ 8000870:	4b39      	ldr	r3, [pc, #228]	; (8000958 <fsm_auto_dec+0xec>)
+ 8000872:	681b      	ldr	r3, [r3, #0]
+ 8000874:	2b17      	cmp	r3, #23
+ 8000876:	d16a      	bne.n	800094e <fsm_auto_dec+0xe2>
+	//isButtonNormalPressed(0): RESET, (1): INC, (2): DEC. Same rule applies to isButtonLongPressed()
+	case COUNTER_AUTO_DEC:
+		//decrement counter every 1 second
+		if (timer_flag == 1){
+ 8000878:	4b38      	ldr	r3, [pc, #224]	; (800095c <fsm_auto_dec+0xf0>)
+ 800087a:	681b      	ldr	r3, [r3, #0]
+ 800087c:	2b01      	cmp	r3, #1
+ 800087e:	d113      	bne.n	80008a8 <fsm_auto_dec+0x3c>
+			clear7SEG();
+ 8000880:	f7ff fd6c 	bl	800035c <clear7SEG>
+			if (bufferValue() == 0){
+ 8000884:	f7ff fe3a 	bl	80004fc <bufferValue>
+ 8000888:	4603      	mov	r3, r0
+ 800088a:	2b00      	cmp	r3, #0
+ 800088c:	d102      	bne.n	8000894 <fsm_auto_dec+0x28>
+				resetBuffer();
+ 800088e:	f7ff fde9 	bl	8000464 <resetBuffer>
+ 8000892:	e002      	b.n	800089a <fsm_auto_dec+0x2e>
+			}
+			else{
+				decBuffer(1);
+ 8000894:	2001      	movs	r0, #1
+ 8000896:	f7ff fe09 	bl	80004ac <decBuffer>
+			}
+			status = COUNTER_AUTO_DEC;
+ 800089a:	4b2f      	ldr	r3, [pc, #188]	; (8000958 <fsm_auto_dec+0xec>)
+ 800089c:	2217      	movs	r2, #23
+ 800089e:	601a      	str	r2, [r3, #0]
+			setTimer(1000);
+ 80008a0:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 80008a4:	f000 f9de 	bl	8000c64 <setTimer>
+		}
+		//switch to RESET when buffer value = 0
+		if (bufferValue() == 0){
+ 80008a8:	f7ff fe28 	bl	80004fc <bufferValue>
+ 80008ac:	4603      	mov	r3, r0
+ 80008ae:	2b00      	cmp	r3, #0
+ 80008b0:	d106      	bne.n	80008c0 <fsm_auto_dec+0x54>
+			status = COUNTER_RESET;
+ 80008b2:	4b29      	ldr	r3, [pc, #164]	; (8000958 <fsm_auto_dec+0xec>)
+ 80008b4:	2201      	movs	r2, #1
+ 80008b6:	601a      	str	r2, [r3, #0]
+			setTimer(10000);
+ 80008b8:	f242 7010 	movw	r0, #10000	; 0x2710
+ 80008bc:	f000 f9d2 	bl	8000c64 <setTimer>
+		}
+		//pressed RESET, reset counter and then switch to RESET
+		if (isButtonNormalPressed(0)){
+ 80008c0:	2000      	movs	r0, #0
+ 80008c2:	f7ff fd0f 	bl	80002e4 <isButtonNormalPressed>
+ 80008c6:	4603      	mov	r3, r0
+ 80008c8:	2b00      	cmp	r3, #0
+ 80008ca:	d00a      	beq.n	80008e2 <fsm_auto_dec+0x76>
+			clear7SEG();
+ 80008cc:	f7ff fd46 	bl	800035c <clear7SEG>
+			resetBuffer();
+ 80008d0:	f7ff fdc8 	bl	8000464 <resetBuffer>
+			status = COUNTER_RESET;
+ 80008d4:	4b20      	ldr	r3, [pc, #128]	; (8000958 <fsm_auto_dec+0xec>)
+ 80008d6:	2201      	movs	r2, #1
+ 80008d8:	601a      	str	r2, [r3, #0]
+			setTimer(10000);
+ 80008da:	f242 7010 	movw	r0, #10000	; 0x2710
+ 80008de:	f000 f9c1 	bl	8000c64 <setTimer>
+		}
+		//pressed INC, increment counter and then switch to INC
+		if (isButtonNormalPressed(1)){
+ 80008e2:	2001      	movs	r0, #1
+ 80008e4:	f7ff fcfe 	bl	80002e4 <isButtonNormalPressed>
+ 80008e8:	4603      	mov	r3, r0
+ 80008ea:	2b00      	cmp	r3, #0
+ 80008ec:	d013      	beq.n	8000916 <fsm_auto_dec+0xaa>
+			clear7SEG();
+ 80008ee:	f7ff fd35 	bl	800035c <clear7SEG>
+			if (bufferValue() == 9) resetBuffer();
+ 80008f2:	f7ff fe03 	bl	80004fc <bufferValue>
+ 80008f6:	4603      	mov	r3, r0
+ 80008f8:	2b09      	cmp	r3, #9
+ 80008fa:	d102      	bne.n	8000902 <fsm_auto_dec+0x96>
+ 80008fc:	f7ff fdb2 	bl	8000464 <resetBuffer>
+ 8000900:	e002      	b.n	8000908 <fsm_auto_dec+0x9c>
+			else incBuffer(1);
+ 8000902:	2001      	movs	r0, #1
+ 8000904:	f7ff fdbc 	bl	8000480 <incBuffer>
+			status = COUNTER_INC_NORMAL;
+ 8000908:	4b13      	ldr	r3, [pc, #76]	; (8000958 <fsm_auto_dec+0xec>)
+ 800090a:	2202      	movs	r2, #2
+ 800090c:	601a      	str	r2, [r3, #0]
+			setTimer(10000);
+ 800090e:	f242 7010 	movw	r0, #10000	; 0x2710
+ 8000912:	f000 f9a7 	bl	8000c64 <setTimer>
+		}
+		//pressed DEC, decrement counter and then switch to DEC
+		if (isButtonNormalPressed(2)){
+ 8000916:	2002      	movs	r0, #2
+ 8000918:	f7ff fce4 	bl	80002e4 <isButtonNormalPressed>
+ 800091c:	4603      	mov	r3, r0
+ 800091e:	2b00      	cmp	r3, #0
+ 8000920:	d017      	beq.n	8000952 <fsm_auto_dec+0xe6>
+			clear7SEG();
+ 8000922:	f7ff fd1b 	bl	800035c <clear7SEG>
+			if (bufferValue() == 0) updateBuffer(9);
+ 8000926:	f7ff fde9 	bl	80004fc <bufferValue>
+ 800092a:	4603      	mov	r3, r0
+ 800092c:	2b00      	cmp	r3, #0
+ 800092e:	d103      	bne.n	8000938 <fsm_auto_dec+0xcc>
+ 8000930:	2009      	movs	r0, #9
+ 8000932:	f7ff fdd1 	bl	80004d8 <updateBuffer>
+ 8000936:	e002      	b.n	800093e <fsm_auto_dec+0xd2>
+			else decBuffer(1);
+ 8000938:	2001      	movs	r0, #1
+ 800093a:	f7ff fdb7 	bl	80004ac <decBuffer>
+			status = COUNTER_DEC_NORMAL;
+ 800093e:	4b06      	ldr	r3, [pc, #24]	; (8000958 <fsm_auto_dec+0xec>)
+ 8000940:	2203      	movs	r2, #3
+ 8000942:	601a      	str	r2, [r3, #0]
+			setTimer(10000);
+ 8000944:	f242 7010 	movw	r0, #10000	; 0x2710
+ 8000948:	f000 f98c 	bl	8000c64 <setTimer>
+		}
+		break;
+ 800094c:	e001      	b.n	8000952 <fsm_auto_dec+0xe6>
+	default:
+		break;
+ 800094e:	bf00      	nop
+ 8000950:	e000      	b.n	8000954 <fsm_auto_dec+0xe8>
+		break;
  8000952:	bf00      	nop
- 8000954:	bd80      	pop	{r7, pc}
- 8000956:	bf00      	nop
+	}
+}
+ 8000954:	bf00      	nop
+ 8000956:	bd80      	pop	{r7, pc}
  8000958:	20000084 	.word	0x20000084
  800095c:	200000d0 	.word	0x200000d0
 
@@ -1337,13 +1335,13 @@ int main(void)
   while (1)
   {
 	  //process button pressing events
-	  fsm_short_pressed_run();
- 800097a:	f7ff fe95 	bl	80006a8 <fsm_short_pressed_run>
-	  fsm_long_pressed_run();
- 800097e:	f7ff fe41 	bl	8000604 <fsm_long_pressed_run>
-	  fsm_automatic_run();
- 8000982:	f7ff fdc5 	bl	8000510 <fsm_automatic_run>
-	  fsm_short_pressed_run();
+	  fsm_normal_pressed();
+ 800097a:	f7ff fdc9 	bl	8000510 <fsm_normal_pressed>
+	  fsm_long_pressed();
+ 800097e:	f7ff ff23 	bl	80007c8 <fsm_long_pressed>
+	  fsm_auto_dec();
+ 8000982:	f7ff ff73 	bl	800086c <fsm_auto_dec>
+	  fsm_normal_pressed();
  8000986:	e7f8      	b.n	800097a <main+0x1a>
  8000988:	20000088 	.word	0x20000088
 

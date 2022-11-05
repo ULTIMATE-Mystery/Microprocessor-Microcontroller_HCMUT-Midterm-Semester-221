@@ -7,9 +7,7 @@
 C_SRCS += \
 ../Core/Src/button.c \
 ../Core/Src/display.c \
-../Core/Src/fsm_automatic.c \
-../Core/Src/fsm_long_pressed.c \
-../Core/Src/fsm_short_pressed.c \
+../Core/Src/fsm_button.c \
 ../Core/Src/global.c \
 ../Core/Src/main.c \
 ../Core/Src/stm32f1xx_hal_msp.c \
@@ -22,9 +20,7 @@ C_SRCS += \
 OBJS += \
 ./Core/Src/button.o \
 ./Core/Src/display.o \
-./Core/Src/fsm_automatic.o \
-./Core/Src/fsm_long_pressed.o \
-./Core/Src/fsm_short_pressed.o \
+./Core/Src/fsm_button.o \
 ./Core/Src/global.o \
 ./Core/Src/main.o \
 ./Core/Src/stm32f1xx_hal_msp.o \
@@ -37,9 +33,7 @@ OBJS += \
 C_DEPS += \
 ./Core/Src/button.d \
 ./Core/Src/display.d \
-./Core/Src/fsm_automatic.d \
-./Core/Src/fsm_long_pressed.d \
-./Core/Src/fsm_short_pressed.d \
+./Core/Src/fsm_button.d \
 ./Core/Src/global.d \
 ./Core/Src/main.d \
 ./Core/Src/stm32f1xx_hal_msp.d \
@@ -57,7 +51,7 @@ Core/Src/%.o Core/Src/%.su: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/button.d ./Core/Src/button.o ./Core/Src/button.su ./Core/Src/display.d ./Core/Src/display.o ./Core/Src/display.su ./Core/Src/fsm_automatic.d ./Core/Src/fsm_automatic.o ./Core/Src/fsm_automatic.su ./Core/Src/fsm_long_pressed.d ./Core/Src/fsm_long_pressed.o ./Core/Src/fsm_long_pressed.su ./Core/Src/fsm_short_pressed.d ./Core/Src/fsm_short_pressed.o ./Core/Src/fsm_short_pressed.su ./Core/Src/global.d ./Core/Src/global.o ./Core/Src/global.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32f1xx_hal_msp.d ./Core/Src/stm32f1xx_hal_msp.o ./Core/Src/stm32f1xx_hal_msp.su ./Core/Src/stm32f1xx_it.d ./Core/Src/stm32f1xx_it.o ./Core/Src/stm32f1xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f1xx.d ./Core/Src/system_stm32f1xx.o ./Core/Src/system_stm32f1xx.su ./Core/Src/timer_interrupt.d ./Core/Src/timer_interrupt.o ./Core/Src/timer_interrupt.su
+	-$(RM) ./Core/Src/button.d ./Core/Src/button.o ./Core/Src/button.su ./Core/Src/display.d ./Core/Src/display.o ./Core/Src/display.su ./Core/Src/fsm_button.d ./Core/Src/fsm_button.o ./Core/Src/fsm_button.su ./Core/Src/global.d ./Core/Src/global.o ./Core/Src/global.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32f1xx_hal_msp.d ./Core/Src/stm32f1xx_hal_msp.o ./Core/Src/stm32f1xx_hal_msp.su ./Core/Src/stm32f1xx_it.d ./Core/Src/stm32f1xx_it.o ./Core/Src/stm32f1xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f1xx.d ./Core/Src/system_stm32f1xx.o ./Core/Src/system_stm32f1xx.su ./Core/Src/timer_interrupt.d ./Core/Src/timer_interrupt.o ./Core/Src/timer_interrupt.su
 
 .PHONY: clean-Core-2f-Src
 

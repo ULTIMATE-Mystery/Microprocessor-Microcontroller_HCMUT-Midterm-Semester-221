@@ -3,9 +3,7 @@
 #define INC_GLOBAL_H_
 
 #include "timer_interrupt.h"
-#include "fsm_automatic.h"
-#include "fsm_long_pressed.h"
-#include "fsm_short_pressed.h"
+#include "fsm_button.h"
 #include "button.h"
 #include "display.h"
 #include "main.h"
