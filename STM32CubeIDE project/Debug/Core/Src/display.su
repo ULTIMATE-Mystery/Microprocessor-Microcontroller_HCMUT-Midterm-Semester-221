@@ -1,0 +1,9 @@
+../Core/Src/display.c:13:6:clear7SEGs	8	static
+../Core/Src/display.c:19:6:clearEN	8	static
+../Core/Src/display.c:24:6:openEN	8	static
+../Core/Src/display.c:29:6:display7SEG	16	static
+../Core/Src/display.c:81:6:resetBuffer	8	static
+../Core/Src/display.c:87:6:increaseBuffer	16	static
+../Core/Src/display.c:93:6:decreaseBuffer	16	static
+../Core/Src/display.c:99:6:updateBuffer	16	static
+../Core/Src/display.c:105:5:bufferValue	4	static
