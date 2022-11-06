@@ -170,7 +170,7 @@ void buttonReading(){
  80001ea:	4413      	add	r3, r2
  80001ec:	460a      	mov	r2, r1
  80001ee:	701a      	strb	r2, [r3, #0]
-				if (buttonBuffer[i] == BUTTON_PRESSED){		//short pressed
+				if (buttonBuffer[i] == BUTTON_PRESSED){		//normal pressed
  80001f0:	4a37      	ldr	r2, [pc, #220]	; (80002d0 <buttonReading+0x184>)
  80001f2:	687b      	ldr	r3, [r7, #4]
  80001f4:	4413      	add	r3, r2
@@ -332,7 +332,7 @@ int isButtonNormalPressed(int index){
 
 08000320 <isButtonLongPressed>:
 
-//if button is pressed for 3 seconds, return 1, else return 0
+//if button is long pressed for 3 seconds, return 1, else return 0
 int isButtonLongPressed(int index){
  8000320:	b480      	push	{r7}
  8000322:	b083      	sub	sp, #12
@@ -372,9 +372,9 @@ int isButtonLongPressed(int index){
 0800035c <clear7SEG>:
 #include "display.h"
 
-int led_buffer[NO_OF_7SEG] = {0};	//buffer for LED 7SEG
+int led_buffer[NO_OF_7SEG] = {0};	//buffer for 7 SEG LED
 
-//turn off LED 7SEG
+//turn off 7 SEG LED
 void clear7SEG(){
  800035c:	b580      	push	{r7, lr}
  800035e:	af00      	add	r7, sp, #0
@@ -684,13 +684,13 @@ void fsm_normal_pressed(){
  8000538:	4ba1      	ldr	r3, [pc, #644]	; (80007c0 <fsm_normal_pressed+0x2b0>)
  800053a:	2201      	movs	r2, #1
  800053c:	601a      	str	r2, [r3, #0]
-		setTimer(10000);	//timeout 10s
+		setTimer(10000);	//timeout 10 seconds
  800053e:	f242 7010 	movw	r0, #10000	; 0x2710
  8000542:	f000 fb8f 	bl	8000c64 <setTimer>
 		break;
  8000546:	e138      	b.n	80007ba <fsm_normal_pressed+0x2aa>
 	case COUNTER_RESET:
-		//10s passed, do nothing
+		//10 seconds passed, do nothing
 		if (timer_flag == 1){
  8000548:	4b9e      	ldr	r3, [pc, #632]	; (80007c4 <fsm_normal_pressed+0x2b4>)
  800054a:	681b      	ldr	r3, [r3, #0]
@@ -770,7 +770,7 @@ void fsm_normal_pressed(){
 		break;
  80005d2:	e0ed      	b.n	80007b0 <fsm_normal_pressed+0x2a0>
 	case COUNTER_INC_NORMAL:
-		//10s passed, decrement counter (if counter != 0) and then switch to DEC_AUTO
+		//10 seconds passed, decrement counter (if counter != 0) and then switch to AUTO_DEC
 		if (timer_flag == 1){
  80005d4:	4b7b      	ldr	r3, [pc, #492]	; (80007c4 <fsm_normal_pressed+0x2b4>)
  80005d6:	681b      	ldr	r3, [r3, #0]
@@ -897,7 +897,7 @@ void fsm_normal_pressed(){
 		break;
  80006be:	e079      	b.n	80007b4 <fsm_normal_pressed+0x2a4>
 	case COUNTER_DEC_NORMAL:
-		//10s passed, decrement counter (if != 0) and then switch to DEC_AUTO
+		//10 seconds passed, decrement counter (if != 0) and then switch to AUTO_DEC
 		if (timer_flag == 1){
  80006c0:	4b40      	ldr	r3, [pc, #256]	; (80007c4 <fsm_normal_pressed+0x2b4>)
  80006c2:	681b      	ldr	r3, [r3, #0]
@@ -2070,8 +2070,8 @@ void timerRun(){
 
 08000cd0 <HAL_TIM_PeriodElapsedCallback>:
 
-
 int debugLED_timerCounter = 50;	//timer counter for DEBUG_LED
+
 //timer callback
 void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef *htim){
  8000cd0:	b580      	push	{r7, lr}

@@ -12,10 +12,10 @@ static GPIO_PinState debounceButtonBuffer3[NO_OF_BUTTON];
 //time out value for long pressed case
 int normalPressedTimeOut[NO_OF_BUTTON];
 
-//flag is on when button is pressed and released immediately
+//flag is on when button is pressed and released immediately (normal pressed)
 int buttonNormalFlag[NO_OF_BUTTON];
 
-//flag is on when button is pressed and hold for 3s
+//flag is on when button is pressed and hold for 3 seconds (long pressed for 3 seconds)
 int buttonLongFlag[NO_OF_BUTTON];
 
 //flag used for increment counter by 1 unit
@@ -34,7 +34,7 @@ void buttonReading(){
 		if(debounceButtonBuffer3[i] == debounceButtonBuffer2[i] && debounceButtonBuffer2[i] == debounceButtonBuffer1[i]){
 			if (buttonBuffer[i] != debounceButtonBuffer1[i]){	//a change in state occured
 				buttonBuffer[i] = debounceButtonBuffer1[i];
-				if (buttonBuffer[i] == BUTTON_PRESSED){		//short pressed
+				if (buttonBuffer[i] == BUTTON_PRESSED){		//normal pressed
 					if (flagForLongPressed[i] == 0){
 						buttonNormalFlag[i] = 1;
 						normalPressedTimeOut[i] = LONG_PRESSED_TIME;
@@ -67,7 +67,7 @@ int isButtonNormalPressed(int index){
 	return 0;
 }
 
-//if button is pressed for 3 seconds, return 1, else return 0
+//if button is long pressed for 3 seconds, return 1, else return 0
 int isButtonLongPressed(int index){
 	if(index >= NO_OF_BUTTON) return 0;
 	if (buttonLongFlag[index] == 1){

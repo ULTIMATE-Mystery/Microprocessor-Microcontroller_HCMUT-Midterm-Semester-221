@@ -23,8 +23,8 @@ void timerRun(){
 	}
 }
 
-
 int debugLED_timerCounter = 50;	//timer counter for DEBUG_LED
+
 //timer callback
 void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM2){

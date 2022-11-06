@@ -1,9 +1,9 @@
 
 #include "display.h"
 
-int led_buffer[NO_OF_7SEG] = {0};	//buffer for LED 7SEG
+int led_buffer[NO_OF_7SEG] = {0};	//buffer for 7 SEG LED
 
-//turn off LED 7SEG
+//turn off 7 SEG LED
 void clear7SEG(){
 	HAL_GPIO_WritePin(GPIOB, SEG0_Pin|SEG1_Pin|SEG2_Pin|SEG3_Pin
 	                          |SEG4_Pin|SEG5_Pin|SEG6_Pin, GPIO_PIN_SET);

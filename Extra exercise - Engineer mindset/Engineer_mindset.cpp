@@ -117,14 +117,6 @@ string suffixWithUnit(double number) {
 }
 
 int main() {
-//   double num = 0;
-//   while(1) {
-//     cout << "Import Input < 0 for out." << endl;
-//     cout << "Input = ";
-//     cin >> num;
-//     if(num < 0) break;
-//     cout << suffixWithUnit(num) << endl;
-//   }
   cout << suffixWithUnit(123) << endl;
   cout << suffixWithUnit(1234) << endl;
   cout << suffixWithUnit(12345) << endl;

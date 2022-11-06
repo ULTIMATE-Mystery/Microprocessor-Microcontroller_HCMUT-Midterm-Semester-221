@@ -14,10 +14,10 @@ void fsm_normal_pressed(){
 		//switch to RESET state
 		resetBuffer();
 		status = COUNTER_RESET;
-		setTimer(10000);	//timeout 10s
+		setTimer(10000);	//timeout 10 seconds
 		break;
 	case COUNTER_RESET:
-		//10s passed, do nothing
+		//10 seconds passed, do nothing
 		if (timer_flag == 1){
 			clear7SEG();
 			resetBuffer();
@@ -47,7 +47,7 @@ void fsm_normal_pressed(){
 		}
 		break;
 	case COUNTER_INC_NORMAL:
-		//10s passed, decrement counter (if counter != 0) and then switch to DEC_AUTO
+		//10 seconds passed, decrement counter (if counter != 0) and then switch to AUTO_DEC
 		if (timer_flag == 1){
 			clear7SEG();
 			if (bufferValue() != 0) decBuffer(1);
@@ -87,7 +87,7 @@ void fsm_normal_pressed(){
 		}
 		break;
 	case COUNTER_DEC_NORMAL:
-		//10s passed, decrement counter (if != 0) and then switch to DEC_AUTO
+		//10 seconds passed, decrement counter (if != 0) and then switch to AUTO_DEC
 		if (timer_flag == 1){
 			clear7SEG();
 			if (bufferValue() == 0){
